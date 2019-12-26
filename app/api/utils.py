@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 class Net_NSP(nn.Module):
     def __init__(self):
-        super(Net, self).__init__()
+        super(Net_NSP, self).__init__()
         self.fc1 = nn.Linear(20,80)
         self.fc2 = nn.Linear(80,160)
         self.fc3 = nn.Linear(160,320)
@@ -12,10 +12,33 @@ class Net_NSP(nn.Module):
         self.fc5 = nn.Linear(160,80)
         self.fc6 = nn.Linear(80,3)
 
-
-
-
         self.dropout = nn.Dropout(p=0.25)
+
+    def forward(self, X):
+        X = self.dropout(F.gelu(self.fc1(X)))
+        X = self.dropout(F.gelu(self.fc2(X)))
+        X = self.dropout(F.gelu(self.fc3(X)))
+        X = self.dropout(F.gelu(self.fc4(X)))
+        X = self.dropout(F.gelu(self.fc5(X)))
+
+        X = F.softmax(self.fc6(X), dim = 1)
+
+        return X
+
+class Net_CLASS(nn.Module):
+    def __init__(self):
+        super(Net_CLASS, self).__init__()
+        self.fc1 = nn.Linear(20,80)
+        self.fc2 = nn.Linear(80,160)
+        self.fc3 = nn.Linear(160,320)
+        self.fc4 = nn.Linear(320,160)
+        self.fc5 = nn.Linear(160,80)
+        self.fc6 = nn.Linear(80,10)
+
+
+
+
+        self.dropout = nn.Dropout(p=0.3)
 
     def forward(self, X):
         X = self.dropout(F.gelu(self.fc1(X)))
@@ -39,22 +62,53 @@ def normaliseRow(row):
     
     return row
 
-def predict(row):
+########## The NSP part ##########
+
+def predict_NSP(network,row):
     """
-        Given the model and a list containing the attribute
+        Given the model and a list containing the attributes
         we predict the NSP class.
     """
+    network.eval()
     row = normaliseRow(row)
     row = torch.FloatTensor(row)
     row = row.unsqueeze(0) #getting rid of "IndexError: Dimension out of range (expected to be in range of [-1, 0], but got 1)" due to missing batch dimension
-    network = loadNet('app/api/nsp_model.pt')
+    # network = loadNet_NSP('app/api/nsp_model.pt')
     out = network(row)
     # print(out[0].max[0])
     probs = [float(i) for i in out[0]]
     ind = int(out[0].max(0)[1])
     return ind,probs
 
-def loadNet(path):
-    network = Net()
+def loadNet_NSP(path):
+    network = Net_NSP()
     network.load_state_dict(torch.load(path, map_location=torch.device('cpu')))
     return network
+
+########## The CLASS part #########
+
+def predict_CLASS(network,row):
+    """
+        Given the model and a list containing the attributes
+        we predict the CLASS class.
+    """
+    network.eval()
+    row = normaliseRow(row)
+    row = torch.FloatTensor(row)
+    row = row.unsqueeze(0) #getting rid of "IndexError: Dimension out of range (expected to be in range of [-1, 0], but got 1)" due to missing batch dimension
+    # network = loadNet_NSP('app/api/nsp_model.pt')
+    out = network(row)
+    print(out)
+    # print(out[0].max[0])
+    probs = [float(i) for i in out[0]]
+    print(probs)
+    ind = int(out[0].max(0)[1])
+    return ind,probs
+
+def loadNet_CLASS(path):
+    network= Net_CLASS()
+    network.load_state_dict(torch.load(path, map_location=torch.device('cpu')))
+    
+    return network
+
+
