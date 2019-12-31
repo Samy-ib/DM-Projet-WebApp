@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <link rel="shortcut icon" href="{{ url_for('static', filename='js/materialize.js') }}"> -->
+
+    <!-- <script src="{{ url_for('static', filename='js/materialize.js') }}"></script> -->
+    <link rel="stylesheet" type="text/css" href="[[ url_for('static', filename='css/materialize.css') ]]"> 
+    <script src="[[ url_for('static', filename='js/materialize.js') ]]"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="[[ url_for('static', filename='js/vue_dev.js') ]]"></script>
+
+
+    
+
+</head>
+<body>
+          
+
+
+   <div class="valign-wrapper" style="width:100%;height:100%;position: absolute;">
+      <div id='root' class="container">
+            <div class="row">
+                  <div class="col s6 offset-s3"><span class="flow-text">
+                     <div class="card">
+                        <div class="card-content">
+                        <myCardContent v-if='show[0]' title='Bonjour' body='Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue Bienvenue '></myCardContent>
+                        <myCardContent v-if='show[1]' title='Le truc' body='Ca c&apos;est le truc'></myCardContent>  
+                        <myCardContent v-if='show[2]' title='Un troisieme truc' body='Juste pour pouvoir test plusieurs trucs'></myCardContent>                        
+                        <div class="card-action">
+                            <div class="row">
+                                <div class="col s6 offset-s3">
+                                <input type="text" name="" id="input1" v-model="newThing">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s4 offset-s2">
+                                    <a class="waves-effect waves-light btn" @click=" decrement(); nextElem();">Previous<i class="material-icons left">arrow_back</i></a>
+                                </div>  
+                                <div class="col s4">
+                                    <a class="waves-effect waves-light btn" @click=" increment(); nextElem();">Next<i class="material-icons right">arrow_forward</i></a>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                  </div>
+            </div>
+      </div>
+   </div>
+    </div>
+
+         
+   <script src="[[url_for('static', filename='js/main.js')]]"></script>
+   
+    <!-- <script>
+
+        Vue.component('cardContent', {
+            props: ['content'],
+            template: '<li>{{ content.text }}</li>'
+            })
+
+
+        var app = new Vue({
+            el : '#root',
+            data : {
+                newThing : '',
+                troll : '<h1>lol</h1>'
+            },
+            methods : {
+                addThing() {
+                    alert('Trolo')
+                }
+            }
+        })
+    </script> -->
+
+</body>
+</html>
