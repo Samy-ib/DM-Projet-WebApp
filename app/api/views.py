@@ -35,17 +35,17 @@ def NSP():
     variance = request.args.get('variance')
 
     elems = [lb,ac,fm,uc,astv,mstv,altv,mltv,dl,ds,dp,width,mini,maxi,nmax,nzeros,mode,mean,median,variance]
-    elems = [int(i) for i in elems]
+    elems = [float(i) for i in elems]
     #make prediction and return NSP
     print(elems)
-    ind,probs = utils.predict_NSP(network_nsp,elems)
+    ind,probs, prob = utils.predict_NSP(network_nsp,elems)
     if ind==0:
         nsp='Normal'
     elif ind==1:
         nsp='Suspect'
     else:
         nsp='Pathologic'
-    dic = {'NSP':nsp,'Probs':{'N':probs[0],'S':probs[1],'P':probs[2]}}
+    dic = {'NSP':nsp,'Prob':prob,'Probs':{'N':probs[0],'S':probs[1],'P':probs[2]}}
     # print(elems)
     # print(ac)
     return jsonify(dic)
@@ -74,9 +74,10 @@ def CLASS():
     variance = request.args.get('variance')
 
     elems = [lb,ac,fm,uc,astv,mstv,altv,mltv,dl,ds,dp,width,mini,maxi,nmax,nzeros,mode,mean,median,variance]
-    elems = [int(i) for i in elems]
+    print(elems)
+    elems = [float(i) for i in elems]
 
-    ind,probs = utils.predict_CLASS(network_class,elems)
+    ind,probs, prob = utils.predict_CLASS(network_class,elems)
 
     if ind==0:
         classe='A: calm sleep'
@@ -99,7 +100,7 @@ def CLASS():
     elif ind==9:
         classe='SUSP: suspect pattern'
 
-    dic = {'CLASS':classe,'Probs':{'A':probs[0],'B':probs[1],'C':probs[2],'D':probs[3],'E/SH':probs[4],'AD':probs[5],'DE':probs[6],'LD':probs[7],'FS':probs[8],'SUSP':probs[9]}}
+    dic = {'CLASS':classe, 'Prob':prob, 'Probs':{'A':probs[0],'B':probs[1],'C':probs[2],'D':probs[3],'E/SH':probs[4],'AD':probs[5],'DE':probs[6],'LD':probs[7],'FS':probs[8],'SUSP':probs[9]}}
 
 
     return jsonify(dic)

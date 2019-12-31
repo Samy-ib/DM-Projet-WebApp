@@ -78,7 +78,7 @@ def predict_NSP(network,row):
     # print(out[0].max[0])
     probs = [float(i) for i in out[0]]
     ind = int(out[0].max(0)[1])
-    return ind,probs
+    return ind,probs, round(max(probs),2)*100
 
 def loadNet_NSP(path):
     network = Net_NSP()
@@ -103,7 +103,7 @@ def predict_CLASS(network,row):
     probs = [float(i) for i in out[0]]
     print(probs)
     ind = int(out[0].max(0)[1])
-    return ind,probs
+    return ind,probs, round(max(probs),2)*100
 
 def loadNet_CLASS(path):
     network= Net_CLASS()
