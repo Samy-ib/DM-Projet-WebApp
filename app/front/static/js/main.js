@@ -31,7 +31,7 @@ Vue.component('welcomecard', {
                         <div class="card-action">
                             
                             <div class="row">
-                                <a class="waves-effect waves-light btn" @click="$emit('gonext')">Okay</a>                                
+                                <a class="waves-effect waves-light btn" @click="$emit('gonext')">Alright !</a>                                
                             </div>
                         </div>
                     </div>
@@ -120,6 +120,14 @@ var app = new Vue({
             }
             // isNaN(Number(app.oneElem))
         },
+        prevElem() {
+            this.errMsg = ''
+            this.delElem()
+            this.decrement()
+            this.oneElem = this.elems[this.pos - 1]
+            this.show = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+            this.show[this.pos] = true
+        },
         increment() {
             this.pos += 1
             if (this.pos == this.show.length) {
@@ -139,6 +147,15 @@ var app = new Vue({
         delElem() {
             this.elems[this.pos - 1] = ''
             this.oneElem = ''
+        },
+        retry(){
+            this.oneElem = '',
+            this.elems = ['','','','','','','','','','','','','','','','','','','',''],
+            this.errMsg = '',
+            this.show = [true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+            this.pos = 0,
+            this.resultCLASS = '',
+            this.resultNSP = ''
         }
     }
 })

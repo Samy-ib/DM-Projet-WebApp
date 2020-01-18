@@ -37,7 +37,6 @@ def NSP():
     elems = [lb,ac,fm,uc,astv,mstv,altv,mltv,dl,ds,dp,width,mini,maxi,nmax,nzeros,mode,mean,median,variance]
     elems = [float(i) for i in elems]
     #make prediction and return NSP
-    print(elems)
     ind,probs, prob = utils.predict_NSP(network_nsp,elems)
     if ind==0:
         nsp='Normal'
@@ -74,7 +73,6 @@ def CLASS():
     variance = request.args.get('variance')
 
     elems = [lb,ac,fm,uc,astv,mstv,altv,mltv,dl,ds,dp,width,mini,maxi,nmax,nzeros,mode,mean,median,variance]
-    print(elems)
     elems = [float(i) for i in elems]
 
     ind,probs, prob = utils.predict_CLASS(network_class,elems)
